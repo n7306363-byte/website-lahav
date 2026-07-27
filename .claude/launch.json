@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "website-lahav-static",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /tmp/website-lahav && exec python3 -m http.server 8080"
+      ],
+      "port": 8080
+    }
+  ]
+}
