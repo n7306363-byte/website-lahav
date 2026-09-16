@@ -9,6 +9,15 @@
         "cd /tmp/website-lahav && exec python3 -m http.server 8080"
       ],
       "port": 8080
+    },
+    {
+      "name": "math-game-lahav",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd '/Users/nirmaimon/Desktop/Claude/Projects/math-game-lahav' && exec /Users/nirmaimon/.local/node/bin/node node_modules/vite/bin/vite.js --host --port 5173 --strictPort"
+      ],
+      "port": 5173
     }
   ]
 }
