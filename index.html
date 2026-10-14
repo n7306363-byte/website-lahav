@@ -83,6 +83,12 @@
   /* projects — pinned stepper laid out exactly like the Figma frame: photo and text box alternate sides */
   .proj-stage{ position:absolute; left:0; top:0; width:1920px; height:940px; overflow:hidden; will-change:transform; }
   .proj-row{ position:absolute; left:0; top:40px; width:1920px; height:850px; }
+  /* projects background: dark green with a soft teal glow, pinned to the screen while the photos change */
+  #projBg{ position:absolute; left:0; top:2640px; width:1920px; height:3288px; pointer-events:none; }
+  .proj-bg__layer{ position:absolute; left:0; top:0; width:1920px; height:1080px;
+    background:radial-gradient(circle 908px at 49% 69%, rgba(0,81,96,.85) 0, rgba(0,81,96,0) 100%);
+    -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 240px); mask-image:linear-gradient(180deg, transparent 0, #000 240px); }
+  html.lh-zoom .proj-bg__layer{ position:sticky; top:0; }
   .proj-img{ position:absolute; overflow:hidden; will-change:opacity,transform; }
   .proj-img__wipe{ position:absolute; inset:0; overflow:hidden; will-change:transform; }
   .proj-img__wipe img{ position:absolute; display:block; max-width:none; object-fit:cover; will-change:transform; transition:opacity .35s ease; }
@@ -102,11 +108,11 @@
   .svc-bg{ position:absolute; inset:0; overflow:hidden; will-change:transform; }
   .svc-bg__img{ position:absolute; inset:0; background-size:cover; background-position:center; will-change:transform; }
   .svc-shade{ position:absolute; inset:0; background:linear-gradient(90deg, rgba(10,47,35,.12) 0%, rgba(10,47,35,.5) 100%); pointer-events:none; }
-  .svc-card{ position:absolute; left:1349px; top:276px; width:432px; height:612px; background:#162d24; color:#e0d1b6; }
+  .svc-card{ position:absolute; left:1349px; top:276px; width:432px; height:612px; background:#223d4f; color:#e0d1b6; }
   .svc-item{ position:absolute; inset:0; will-change:transform,opacity; }
   .svc-item__img{ position:absolute; left:20px; top:20px; width:392px; height:380px; display:block; object-fit:cover; }
   .svc-item__num{ position:absolute; right:20px; top:400px; font-size:120px; line-height:156px; direction:ltr; }
-  .svc-item__label{ position:absolute; right:20px; font-size:18px; line-height:18px; white-space:nowrap; }
+  .svc-item__label{ position:absolute; left:20px; right:20px; bottom:20px; font-size:28px; line-height:34px; text-align:right; }
   /* with real (zoom) scaling the pinned stages are plain CSS sticky -> the browser pins them on the compositor, no JS jitter */
   html.lh-zoom .proj-stage, html.lh-zoom .svc-stage{ position:sticky; top:87px; will-change:auto; }
   html.lh-zoom #vision-section{ position:sticky; left:auto !important; margin-left:-3px; will-change:auto; }
@@ -114,6 +120,139 @@
   .lh-av{ position:relative; width:37px; height:37px; border-radius:30px; overflow:hidden; flex:none; background:#cecece; }
   .lh-av > div{ position:absolute; overflow:hidden; }
   .lh-av img{ position:absolute; max-width:none; display:block; }
+
+  /* ===== MOBILE / TABLET LAYOUT (<=1023px) — built from the Figma frame "iPhone 16 Plus - 1" (430px wide) =====
+     Own markup (#lhMobile). The scaled 1920px desktop canvas is only hidden below 1024px and is not touched above it. */
+  .lh-m{ display:none; }
+  @media (max-width:1023.98px){
+    .lahav-canvas-frame, .lahav-header-frame, .lh-wa-fixed{ display:none !important; }
+    .lh-m{ display:block; position:relative; background:var(--bg); color:#fff; overflow-x:clip; }
+  }
+  .lh-m *, .lh-m *::before, .lh-m *::after{ box-sizing:border-box; }
+  .lh-m-col{ position:relative; width:100%; max-width:560px; margin-inline:auto; }
+  .lh-m-label{ margin:0; font-size:24px; line-height:53px; height:53px; color:var(--gold); text-transform:uppercase; }
+  .lh-m-center{ text-align:center; }
+
+  /* header (72px, white 55% + blur) */
+  .lh-m-header{ position:fixed; top:0; left:0; right:0; z-index:50; height:72px; padding:0 20px 0 15px; display:flex; align-items:center; justify-content:space-between; direction:ltr; background:rgba(255,255,255,.55); -webkit-backdrop-filter:blur(32px); backdrop-filter:blur(32px); }
+  .lh-m-phone{ display:block; width:30px; height:31px; }
+  .lh-m-phone img{ width:30px; height:31px; display:block; }
+  .lh-m-logo{ position:absolute; left:50%; top:16px; width:187px; height:40px; transform:translateX(-50%); display:block; }
+  .lh-m-social{ display:flex; align-items:center; gap:14.5px; }
+  .lh-m-social a{ display:block; width:16px; height:16px; }
+  .lh-m-social img{ width:16px; height:16px; display:block; }
+  @media (max-width:399px){ .lh-m-logo{ width:150px; height:32px; top:20px; } }
+
+  /* hero: two rotated rows of photos (-11.6deg), dark shade towards the bottom-right, text pinned right */
+  .lh-m-hero{ position:relative; height:694px; overflow:hidden; background:var(--bg); }
+  .lh-m-gallery{ position:absolute; inset:0; animation:lhm-fade 1.5s cubic-bezier(.55,0,.1,1) 4.5s both; }
+  .lh-m-row{ position:absolute; transform-origin:0 0; transform:rotate(-11.6deg); }
+  .lh-m-track{ display:flex; will-change:transform; }
+  .lh-m-row--b{ left:-375px; top:128.4px; }
+  .lh-m-row--a{ left:-333px; top:455.2px; }
+  .lh-m-row--b .lh-m-track{ gap:22.9px; animation:lhm-drift-b 46s ease-in-out infinite alternate; }
+  .lh-m-row--a .lh-m-track{ gap:21.8px; animation:lhm-drift-a 52s ease-in-out infinite alternate; }
+  .lh-m-tile{ flex:none; overflow:hidden; background:#0d3a2b; }
+  .lh-m-row--b .lh-m-tile{ width:237.2px; height:305.6px; }
+  .lh-m-row--a .lh-m-tile{ width:225.3px; height:294.4px; }
+  .lh-m-tile img{ width:100%; height:100%; object-fit:cover; display:block; }
+  @keyframes lhm-fade{ from{ opacity:0; } to{ opacity:1; } }
+  @keyframes lhm-drift-b{ from{ transform:translateX(0); } to{ transform:translateX(-260px); } }
+  @keyframes lhm-drift-a{ from{ transform:translateX(-247px); } to{ transform:translateX(0); } }
+  .lh-m-shade{ position:absolute; right:-8px; top:72px; width:610px; height:622px; pointer-events:none; background:linear-gradient(308deg, rgba(10,47,35,1) 170px, rgba(10,47,35,0) 636px); }
+  .lh-m-hero .lh-m-col{ height:100%; }
+  .lh-m-htxt{ position:absolute; right:14px; margin:0; text-align:right; white-space:nowrap; animation:lh-text-in 1.2s cubic-bezier(.55,0,.1,1) 5.2s both; }
+  .lh-m-hsub{ top:353px; font-size:20px; line-height:20px; }
+  .lh-m-h1a{ top:370px; font-size:44.5px; line-height:55.6px; }
+  .lh-m-h1b{ top:401px; font-size:75.6px; line-height:94.5px; }
+  .lh-m-hp{ top:493px; width:276px; white-space:normal; font-size:16px; line-height:16px; letter-spacing:-.12px; }
+
+  /* story */
+  .lh-m-s1{ display:block; width:calc(100% - 18px); height:auto; margin:0 11px 0 7px; aspect-ratio:412/527; object-fit:cover; }
+  .lh-m-stxt{ padding:4px 18px 0 29px; text-align:right; }
+  .lh-m-h2s{ margin:-5px 0 0; font-size:48px; line-height:48px; }
+  .lh-m-body{ margin-top:10px; font-size:18px; line-height:24px; }
+  .lh-m-body p{ margin:0; }
+  .lh-m-s2{ display:block; width:calc(100% - 25px); height:auto; margin:19px 14px 0 11px; aspect-ratio:405/390; object-fit:cover; }
+
+  /* projects */
+  .lh-m-phead{ margin-top:34px; text-align:center; }
+  .lh-m-phead h2{ margin:-19px 0 0; font-size:55px; line-height:55px; }
+  .lh-m-proj{ position:relative; isolation:isolate; margin-top:36px; }
+  .lh-m-proj + .lh-m-proj{ margin-top:95px; }
+  .lh-m-proj + .lh-m-proj + .lh-m-proj{ margin-top:67px; }
+  .lh-m-proj::before{ content:''; position:absolute; z-index:-1; left:-80px; top:-166px; width:602px; height:625px; pointer-events:none; background:radial-gradient(ellipse 298px 309px at 50% 50%, #005160 0, rgba(0,81,96,0) 100%); }
+  .lh-m-ptitle{ margin:0 0 0 auto; width:338px; max-width:100%; padding:0 22px 0 0; font-size:32px; line-height:40px; text-align:right; }
+  .lh-m-pdesc{ padding:0 24px 0 20px; font-size:18px; line-height:24px; text-align:right; }
+  .lh-m-pdesc p{ margin:0; }
+  .lh-m-pdesc p.lh-m-pmore{ margin-top:24px; }
+  .lh-m-readmore{ display:block; width:100%; margin:24px 0 0; padding:0; border:0; background:none; color:inherit; font:inherit; text-align:right; text-decoration:underline; cursor:pointer; }
+  .lh-m-pphoto{ margin:12px 12px 0 13px; width:calc(100% - 25px); aspect-ratio:405/538; overflow:hidden; background:#0d3a2b; }
+  .lh-m-pphoto img{ width:100%; height:100%; object-fit:cover; display:block; transition:opacity .3s ease; }
+  .lh-m-plabel{ margin:12px 14px 0 0; font-size:18px; line-height:24px; text-align:right; }
+  .lh-m-pthumbs{ display:flex; gap:20px; margin-top:16px; padding:0 14px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+  .lh-m-pthumbs::-webkit-scrollbar{ display:none; }
+  .lh-m-thumb{ flex:none; width:142px; height:142px; padding:0; border:0; background:none; overflow:hidden; cursor:pointer; }
+  .lh-m-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .lh-m-thumb.active{ outline:2px solid var(--lime); outline-offset:-2px; }
+
+  /* vision: video + two leaves, text centered */
+  .lh-m-vision{ position:relative; height:585px; margin-top:46px; overflow:hidden; background:#04140e; }
+  .lh-m-vision__video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .lh-m-leaf{ position:absolute; max-width:none; pointer-events:none; transform:translateX(16%); transition:transform 2.2s cubic-bezier(.2,.7,.2,1); }
+  .lh-m-leaf--1{ left:-472px; top:-11px; width:776px; height:890px; }
+  .lh-m-leaf--4{ left:-805px; top:339px; width:1189px; height:682px; }
+  .lh-m-vision.is-in .lh-m-leaf{ transform:none; }
+  .lh-m-vision .lh-m-col{ height:100%; }
+  .lh-m-vlabel{ position:absolute; left:0; right:0; top:113px; text-align:center; }
+  .lh-m-vh2{ position:absolute; left:15px; right:12px; top:133px; margin:0; font-size:55px; line-height:110px; text-align:center; }
+  .lh-m-vp{ position:absolute; left:15px; right:12px; top:258px; margin:0; font-size:30px; line-height:35px; text-align:center; }
+
+  /* services: three full-height bands with a coloured card */
+  .lh-m-svchead{ padding-top:12px; height:159px; text-align:center; }
+  .lh-m-svchead h2{ margin:0; font-size:40px; line-height:48px; }
+  .lh-m-band{ position:relative; height:1080px; display:flex; justify-content:center; padding-top:276px; background:#adadad center/cover no-repeat; }
+  .lh-m-band:nth-of-type(2){ background-color:#5e5e5e; }
+  .lh-m-scard{ position:relative; width:min(400px, calc(100% - 30px)); height:612px; color:#e0d1b6; }
+  .lh-m-scard img{ display:block; width:calc(100% - 40px); height:380px; margin:20px 20px 0; object-fit:cover; }
+  .lh-m-scard__num{ position:absolute; right:20px; top:400px; margin:0; font-size:120px; line-height:156px; direction:ltr; text-align:right; }
+  .lh-m-scard__label{ position:absolute; left:20px; right:20px; bottom:20px; margin:0; font-size:28px; line-height:34px; text-align:right; }
+
+  /* testimonials */
+  .lh-m-thead{ padding-top:89px; text-align:center; }
+  .lh-m-thead h2{ margin:-11px 0 0; font-size:40px; line-height:40px; }
+  .lh-m-cards{ display:flex; flex-direction:column; gap:29px; margin:59px 19px 0 23px; padding-bottom:54px; }
+  .lh-m-quote{ display:flex; flex-direction:column; gap:16px; min-height:237px; margin:0; padding:32px; background:#0d3a2b; border:1px solid var(--border-accent); border-radius:12px; box-shadow:0 1px 2px rgba(10,13,18,.05); text-align:right; }
+  .lh-m-quote p{ margin:0; flex:1; font-size:16px; line-height:24px; }
+  .lh-m-quote footer{ display:flex; align-items:center; gap:8px; }
+  .lh-m-quote img{ width:37px; height:37px; border-radius:50%; object-fit:cover; background:#cecece; display:block; }
+  .lh-m-quote b{ font-size:16px; line-height:24px; font-weight:700; }
+
+  /* call to action + footer (not in the mobile frame yet — kept from the desktop design) */
+  .lh-m-cta{ padding:24px 0 20px; }
+  .lh-m-seal{ position:relative; z-index:2; width:150px; height:150px; margin:0 auto -75px; }
+  .lh-m-cta__box{ position:relative; width:min(100% - 36px,1000px); margin-inline:auto; padding:110px 24px 34px; border-radius:12px; overflow:hidden; text-align:center; background:#0d3a2b url(images/footer-banner.jpg) center/cover no-repeat; }
+  .lh-m-cta__box::before{ content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,47,35,.25), rgba(10,47,35,.55)); }
+  .lh-m-cta__box > *{ position:relative; }
+  .lh-m-cta__logo{ width:min(250px,70%); height:auto; margin:0 auto 22px; display:block; }
+  .lh-m-cta__box h2{ margin:0 0 10px; font-size:clamp(26px,7.4vw,40px); line-height:1.2; }
+  .lh-m-cta__box p{ margin:0 0 20px; font-size:clamp(17px,4.6vw,22px); line-height:1.5; }
+  .lh-m-cta__box p a{ color:var(--lime); white-space:nowrap; }
+  .lh-m-cta__social{ display:flex; align-items:center; justify-content:center; gap:24px; direction:ltr; }
+  .lh-m-cta__social img{ width:26px; height:26px; display:block; }
+  .lh-m-credit{ display:flex; align-items:center; justify-content:center; gap:12px; padding:26px 20px 90px; direction:ltr; font-size:16px; }
+  .lh-m-credit img{ width:109px; height:18px; object-fit:contain; display:block; }
+
+  /* sticky WhatsApp pill (bottom-left) */
+  .lh-m-wa{ position:fixed; left:11px; bottom:calc(16px + env(safe-area-inset-bottom,0px)); z-index:45; display:flex; align-items:center; justify-content:center; gap:8px; width:151px; height:40px; border-radius:55px; background:#f8e8cf; color:#0a2f23; direction:ltr; box-shadow:0 6px 18px rgba(0,0,0,.28); animation:lh-text-in 1.2s cubic-bezier(.55,0,.1,1) 5.2s both; }
+  .lh-m-wa img{ width:28px; height:28px; display:block; }
+  .lh-m-wa span{ font-size:18px; line-height:24px; direction:rtl; }
+
+  @media (prefers-reduced-motion: reduce){
+    .lh-m-gallery, .lh-m-htxt, .lh-m-wa{ animation:none; }
+    .lh-m-track{ animation:none !important; }
+    .lh-m-leaf{ transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -151,7 +290,8 @@
   // at 4.5s the logo flies into its place in the header while the two halves wipe away
   setTimeout(function () {
     var logo = loader.querySelector('.lh-loader__logo');
-    var target = document.querySelector('.lh-header-logo');
+    var target = null, cands = document.querySelectorAll('.lh-header-logo, .lh-m-logo');
+    for (var ci = 0; ci < cands.length; ci++) { if (cands[ci].getBoundingClientRect().width > 0) { target = cands[ci]; break; } }
     if (!logo || !target || !logo.animate) return;
     var a = logo.getBoundingClientRect(), b = target.getBoundingClientRect();
     var dx = (b.left + b.width / 2) - (a.left + a.width / 2);
@@ -233,6 +373,7 @@
   </div>
 
   <!-- PROJECTS -->
+  <div id="projBg" aria-hidden="true"><div class="proj-bg__layer" id="projBgLayer"></div></div>
   <p class="font-storyscript absolute whitespace-nowrap uppercase" style="left:981.5px; top:2730px; margin:0; transform:translateX(-50%); font-size:24px; line-height:53px; color:var(--gold);">Projects</p>
   <h2 class="font-liebling-light absolute whitespace-nowrap" style="left:981.5px; top:2759px; margin:0; transform:translateX(-50%); font-size:55px; line-height:normal;">פרוייקטים</h2>
 
@@ -241,7 +382,7 @@
   <!-- VISION (video bg + scroll-linked reveal) -->
   <div id="vision-wrap" class="absolute" style="left:0; top:5928px; width:1920px; height:1794px;">
   <div id="vision-section" class="absolute overflow-hidden" style="left:-3px; top:0; width:1920px; height:894px; will-change:transform;">
-    <video id="vision-video" class="absolute inset-0 h-full w-full object-cover" style="will-change:transform;" autoplay muted loop playsinline preload="auto" src="images/vision-leaves.mp4"></video>
+    <video id="vision-video" class="absolute inset-0 h-full w-full object-cover" style="will-change:transform;" autoplay muted loop playsinline preload="none" data-src="images/vision-leaves.mp4"></video>
     <div class="absolute inset-0" style="background:rgba(10,47,35,0.28);"></div>
 
     <!-- dark veil: lifts while the curtain of leaves opens, so the video is revealed -->
@@ -280,17 +421,17 @@
       <div class="svc-item" data-i="0">
         <img class="svc-item__img" src="images/service-card-1.jpg" alt="תכנון גינות משלב תוכניות הבנייה" />
         <div class="svc-item__num font-liebling-light">1</div>
-        <div class="svc-item__label font-liebling" style="top:565px;">תכנון גינות משלב תוכניות הבנייה</div>
+        <div class="svc-item__label font-liebling">תכנון גינות משלב תוכניות הבנייה</div>
       </div>
       <div class="svc-item" data-i="1">
         <img class="svc-item__img" src="images/service-card-2.jpg" alt="הקמת גינות ותחזוקה באופן שוטף" />
         <div class="svc-item__num font-liebling-light">2</div>
-        <div class="svc-item__label font-liebling" style="top:538px;">הקמת גינות ותחזוקה באופן שוטף</div>
+        <div class="svc-item__label font-liebling">הקמת גינות ותחזוקה באופן שוטף</div>
       </div>
       <div class="svc-item" data-i="2">
         <img class="svc-item__img" src="images/service-card-3.jpg" alt="בניית דקים ופרגולות" />
         <div class="svc-item__num font-liebling-light">3</div>
-        <div class="svc-item__label font-liebling" style="top:556px;">בניית דקים ופרגולות</div>
+        <div class="svc-item__label font-liebling">בניית דקים ופרגולות</div>
       </div>
       </div>
     </div>
@@ -360,6 +501,100 @@
 </div>
 </div>
 
+<!-- ================= MOBILE / TABLET LAYOUT (<=1023px) — from Figma "iPhone 16 Plus - 1"; hidden on desktop ================= -->
+<div class="lh-m" id="lhMobile">
+  <header class="lh-m-header">
+    <a class="lh-m-phone" href="tel:0523928242" aria-label="052-392-8242"><img src="images/header-phone-icon.svg" alt="" width="30" height="31"></a>
+    <img class="lh-m-logo" src="images/logo-main.svg" alt="לוגו ש.ל להב פיתוח ונוי" width="259" height="55">
+    <nav class="lh-m-social" aria-label="רשתות חברתיות"><a href="https://www.instagram.com/lahav_pitohvnoy_s.l_ltd/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="images/social-instagram-dark.svg" alt=""></a><a href="https://www.facebook.com/profile.php?id=100063780930822" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="images/social-facebook-dark.svg" alt=""></a><a href="https://wa.me/972523928242" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><img src="images/social-whatsapp-dark.svg" alt=""></a></nav>
+  </header>
+
+  <main>
+    <section class="lh-m-hero">
+      <div class="lh-m-gallery" aria-hidden="true"><div class="lh-m-row lh-m-row--b"><div class="lh-m-track"><div class="lh-m-tile"><img src="images/hero-photo-03.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-07.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-11.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-02.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-14.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-05.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-09.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-16.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-04.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-12.jpg" alt="" decoding="async"></div></div></div><div class="lh-m-row lh-m-row--a"><div class="lh-m-track"><div class="lh-m-tile"><img src="images/hero-photo-08.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-01.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-13.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-06.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-10.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-15.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-02.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-11.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-07.jpg" alt="" decoding="async"></div><div class="lh-m-tile"><img src="images/hero-photo-14.jpg" alt="" decoding="async"></div></div></div></div>
+      <div class="lh-m-shade" aria-hidden="true"></div>
+      <div class="lh-m-col">
+        <p class="lh-m-htxt lh-m-hsub font-liebling-light">ש.ל להב פיתוח ונוי</p>
+        <h1 class="lh-m-htxt lh-m-h1a font-liebling">הופכים חלומות</h1>
+        <p class="lh-m-htxt lh-m-h1b font-liebling" aria-hidden="true">למציאות</p>
+        <p class="lh-m-htxt lh-m-hp font-liebling-light">הסיפור שלנו מתחיל באהבה לטבע ובאמונה שלכל גינה יש את הפוטנציאל להפוך למקום מיוחד. אנחנו מלווים את לקוחותינו משלב החלום והתכנון ועד ליצירת גינה מושלמת, המשלבת יופי, צמחייה והרמוניה עם סביבת הבית.</p>
+      </div>
+    </section>
+
+    <section class="lh-m-story"><div class="lh-m-col">
+      <img class="lh-m-s1" src="images/m-story-1.jpg" alt="בריכה בגינה שתוכננה על ידי להב" width="412" height="527">
+      <div class="lh-m-stxt">
+        <p class="lh-m-label font-storyscript">OUR STORY</p>
+        <h2 class="lh-m-h2s font-liebling">הסיפור שלנו</h2>
+        <div class="lh-m-body font-liebling-light">
+          <p>להב פיתוח ונוי הוקמה בשנת 2001 ע״י אבישי להב.</p>
+          <p>כילד, התחנך על ערכי החקלאות. חיבור זה הוליד אהבה למקצוע אדריכלות הנוף – שילוב בין עיצוב, אדמה, צומח ודומם. בתפיסת עולמו – הגינה היא חלק בלתי נפרד מהבית ולכן בשלב התכנון נעשה חיבור מלא בין הבית לטבע במטרה להעניק הרמוניה מלאה בין הפנים לחוץ.</p>
+          <p>בעבודותיו, מתבטאת אהבתו לנוף הישראלי ע"י שילוב של צמחיה בעלת אופי ארץ ישראלי, סלעים ודוממים ייחודיים, וכמובן דגש על חיסכון במים.</p>
+          <p>בכדי להשלים את מבנה הגינה משלב אבישי תכנון וביצוע עבודות עץ על כל סוגיו.</p>
+        </div>
+      </div>
+      <img class="lh-m-s2" src="images/m-story-2.jpg" alt="הסיפור שלנו" width="405" height="390" loading="lazy">
+    </div></section>
+
+    <section class="lh-m-projects"><div class="lh-m-col">
+      <div class="lh-m-phead">
+        <p class="lh-m-label font-storyscript">Projects</p>
+        <h2 class="font-liebling-light">פרוייקטים</h2>
+      </div>
+      <div id="lhMProjects"></div>
+    </div></section>
+
+    <section class="lh-m-vision" id="lhMVision">
+      <video class="lh-m-vision__video" muted loop playsinline preload="none" data-src="images/vision-leaves.mp4" aria-hidden="true"></video>
+      <img class="lh-m-leaf lh-m-leaf--1" src="images/vision-leaf-1.webp" alt="" loading="lazy">
+      <img class="lh-m-leaf lh-m-leaf--4" src="images/vision-leaf-4.webp" alt="" loading="lazy">
+      <div class="lh-m-col">
+        <p class="lh-m-label lh-m-vlabel font-storyscript">OUR VISON</p>
+        <h2 class="lh-m-vh2 font-liebling-bold">החזון שלנו</h2>
+        <p class="lh-m-vp font-liebling-light">אנחנו מאמינים שכל גינה יכולה להפוך לפינה הכי יפה בבית. עם תכנון נכון, צמחייה מדויקת והמון אהבה לטבע אנחנו הופכים חלומות למציאות</p>
+      </div>
+    </section>
+
+    <section class="lh-m-svc" style="background:var(--bg);">
+      <div class="lh-m-svchead lh-m-col">
+        <p class="lh-m-label font-storyscript" style="text-align:center;">what we do</p>
+        <h2 class="font-liebling">מה אנחנו עושים</h2>
+      </div>
+      <div class="lh-m-band" data-bg="images/service-bg-1.jpg"><div class="lh-m-scard" style="background:#223d4f;"><img src="images/m-svc-1.jpg" alt="תכנון גינות משלב תוכניות הבנייה" loading="lazy" decoding="async"><div class="lh-m-scard__num font-liebling-light">1</div><div class="lh-m-scard__label font-liebling">תכנון גינות משלב תוכניות הבנייה</div></div></div><div class="lh-m-band" data-bg="images/service-bg-2.jpg"><div class="lh-m-scard" style="background:#235441;"><img src="images/m-svc-2.jpg" alt="הקמת גינות ותחזוקה באופן שוטף" loading="lazy" decoding="async"><div class="lh-m-scard__num font-liebling-light">2</div><div class="lh-m-scard__label font-liebling">הקמת גינות ותחזוקה באופן שוטף</div></div></div><div class="lh-m-band" data-bg="images/service-bg-3.jpg"><div class="lh-m-scard" style="background:#60300f;"><img src="images/m-svc-3.jpg" alt="בניית דקים ופרגולות" loading="lazy" decoding="async"><div class="lh-m-scard__num font-liebling-light">3</div><div class="lh-m-scard__label font-liebling">בניית דקים ופרגולות</div></div></div>
+    </section>
+
+    <section class="lh-m-testi"><div class="lh-m-col">
+      <div class="lh-m-thead">
+        <p class="lh-m-label font-storyscript">testimonials</p>
+        <h2 class="font-liebling">לקוחות שלנו ממליצים</h2>
+      </div>
+      <div class="lh-m-cards"><blockquote class="lh-m-quote"><p class="font-notosans">"הצוות של להב הפך את החצר המוזנחת שלנו לגן חלומות תוך שבועיים. מקצועיים, אדיבים ועומדים בזמנים. ממליצים בחום!"</p><footer><img src="images/avatar-1.jpg" alt="" loading="lazy" decoding="async"><b class="font-notosans">סיגל גזית</b></footer></blockquote><blockquote class="lh-m-quote"><p class="font-notosans">"בנו לנו דק עץ ופינת ישיבה מרהיבה בגינה. כל פרט תוכנן בקפידה ובסוף התוצאה עלתה על כל הציפיות שלנו."</p><footer><img src="images/avatar-2.jpg" alt="" loading="lazy" decoding="async"><b class="font-notosans">מלי אהרון</b></footer></blockquote><blockquote class="lh-m-quote"><p class="font-notosans">"תחזוקה שוטפת ברמה גבוהה, תמיד מגיעים בזמן והגינה נראית מטופחת כל השנה. שירות אמין שאפשר לסמוך עליו."</p><footer><img src="images/avatar-3.jpg" alt="" loading="lazy" decoding="async"><b class="font-notosans">קבוצת פרידנזון</b></footer></blockquote><blockquote class="lh-m-quote"><p class="font-notosans">"מהתכנון הראשוני ועד לנטיעה האחרונה, ליווי צמוד וייעוץ מקצועי. קיבלנו בדיוק את הגינה שדמיינו."</p><footer><img src="images/avatar-4.jpg" alt="" loading="lazy" decoding="async"><b class="font-notosans">ניר מימון</b></footer></blockquote></div>
+    </div></section>
+
+    <section class="lh-m-cta">
+      <div class="lh-seal lh-m-seal" role="img" aria-label="הופכים חלומות למציאות">
+        <img src="images/seal-base.svg" alt="" width="257" height="257">
+        <img class="lh-seal__ring anim-spin-ring" src="images/seal-ring.svg" alt="" width="257" height="257">
+      </div>
+      <div class="lh-m-cta__box">
+        <img class="lh-m-cta__logo" src="images/logo-cta.png" alt="ש.ל להב פיתוח ונוי — תכנון והקמת גינות" loading="lazy">
+        <h2 class="font-liebling">רוצים שנגשים גם לכם חלום</h2>
+        <p class="font-liebling">דברו איתנו ונתכנן את הגינה ביחד: <a class="font-liebling-bold" href="tel:0523928242">052-392-8242</a></p>
+        <div class="lh-m-cta__social"><a href="https://www.instagram.com/lahav_pitohvnoy_s.l_ltd/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="images/social-instagram-light.svg" alt=""></a><a href="https://www.facebook.com/profile.php?id=100063780930822" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="images/social-facebook-light.svg" alt=""></a><a href="https://wa.me/972523928242" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><img src="images/social-whatsapp-light.svg" alt=""></a></div>
+      </div>
+      <a class="lh-m-credit" href="https://correctui.co.il/" target="_blank" rel="noopener noreferrer" aria-label="CorrectUI — עוצב ופותח ע״י">
+        <img src="images/logo-correctui.png" alt="CorrectUI" loading="lazy">
+        <span class="font-notosans">עוצב ופותח ע״י</span>
+      </a>
+    </section>
+  </main>
+
+  <a class="lh-m-wa" href="https://wa.me/972523928242" target="_blank" rel="noopener noreferrer" aria-label="דברו איתנו בווצאפ">
+    <img src="images/icon-whatsapp-outline.svg" alt="" width="28" height="28">
+    <span class="font-liebling">דברו איתנו</span>
+  </a>
+</div>
+
 <script>
   // shared canvas scale (1 = 1920px wide). Updated by lahavSetScale() on resize -> 'lh:scale' event.
   var LH = { z: 1, shift: 258, zoom: !!(window.CSS && CSS.supports && CSS.supports('zoom', '1')) };   // shift: how far the sections below the hero were pulled up vs. Figma
@@ -412,6 +647,7 @@
     host.innerHTML = html;
 
     var stage = document.getElementById('projStage');
+    var bgLayer = document.getElementById('projBgLayer'), bgH = 0, BG_TOP = 2640, BG_H = 3288;
     var imgs = [].slice.call(host.querySelectorAll('.proj-img'));
     var boxes = [].slice.call(host.querySelectorAll('.proj-box'));
     var stageH = 0;
@@ -425,6 +661,11 @@
       var s = LH.z;
       var h = Math.round(clamp(window.innerHeight / s - HEADER, 940, 1400));
       var travel = LAST_PHOTO_BOTTOM - TOP - PHOTO_H;
+      if (bgLayer) {
+        var bh = Math.round(window.innerHeight / s);
+        if (bh !== bgH) { bgH = bh; bgLayer.style.height = bh + 'px'; }
+        if (!LH.zoom) bgLayer.style.transform = 'translate3d(0,' + clamp(window.pageYOffset / s - (BG_TOP - LH.shift), 0, BG_H - bh).toFixed(1) + 'px,0)';
+      }
       if (h !== stageH) { stageH = h; stage.style.height = h + 'px'; host.style.height = (travel + h) + 'px'; }
       var top = clamp(window.pageYOffset / s + HEADER - TOP, 0, travel);
       if (!LH.zoom) stage.style.transform = 'translate3d(0,' + top.toFixed(1) + 'px,0)';
@@ -511,6 +752,7 @@
     var bgs = [].slice.call(stage.querySelectorAll('.svc-bg'));
     var items = [].slice.call(card.querySelectorAll('.svc-item'));
     var N = items.length, stageH = 0;
+    var CARD_RGB = [[34, 61, 79], [35, 84, 65], [96, 48, 15]];   // card fills: #223d4f (set by the client), #235441, #60300f
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
     function ease(x) { return x * x * (3 - 2 * x); }
@@ -535,6 +777,8 @@
       var key = pos.toFixed(3);
       if (key === lastKey) return;
       lastKey = key;
+      var ci = Math.min(CARD_RGB.length - 2, Math.floor(pos)), cf = clamp(pos - ci, 0, 1), c0 = CARD_RGB[ci], c1 = CARD_RGB[ci + 1];
+      card.style.backgroundColor = 'rgb(' + [0, 1, 2].map(function (k) { return Math.round(c0[k] + (c1[k] - c0[k]) * cf); }).join(',') + ')';
       for (var j = 0; j < N; j++) {
         var r = j === 0 ? 1 : ease(clamp(pos - (j - 1), 0, 1));
         var bg = bgs[j];
@@ -587,6 +831,7 @@
         im.src = 'images/hero-photo-' + (n < 10 ? '0' + n : n) + '.jpg';
         im.alt = '';
         im.decoding = 'async';
+        if (window.matchMedia && window.matchMedia('(max-width:1023px)').matches) im.loading = 'lazy';   // phones never show this gallery
         el.appendChild(im);
         content.appendChild(el);
         cards.push({ el: el, r: r, off: j * IW });
@@ -663,6 +908,16 @@
     }
     window.addEventListener('lh:scale', fit);
     fit();
+  })();
+
+  // the leaf video is only fetched for the desktop layout (phones load their own copy on demand)
+  (function () {
+    var v = document.getElementById('vision-video');
+    if (!v || !window.matchMedia) return;
+    var mq = window.matchMedia('(min-width:1024px)');
+    function load() { if (mq.matches && !v.getAttribute('src')) { v.src = v.getAttribute('data-src'); v.preload = 'auto'; v.load(); } }
+    load();
+    if (mq.addEventListener) mq.addEventListener('change', load); else if (mq.addListener) mq.addListener(load);
   })();
 
   // pause the leaf video while it is off screen
@@ -767,6 +1022,86 @@
     window.addEventListener('lh:scale', function () { lastKey = ''; onScroll(); });
     target = cur = targetP();
     render(cur);
+  })();
+</script>
+
+<script>
+  // mobile / tablet layout (<=1023px): projects, lazy media, leaf reveal
+  (function () {
+    var root = document.getElementById('lhMobile');
+    if (!root) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+
+    // projects — same texts as the desktop stepper, laid out like the mobile frame
+    var host = document.getElementById('lhMProjects');
+    if (host && window.PROJECTS) {
+      var PHOTOS = ['images/m-project-1.jpg', 'images/m-project-2.jpg', 'images/m-project-3.jpg'];
+      host.innerHTML = PROJECTS.map(function (p, i) {
+        var photo = PHOTOS[i] || p.photo;
+        return '<article class="lh-m-proj">'
+          + '<h3 class="lh-m-ptitle font-liebling-light">' + p.title + '</h3>'
+          + '<div class="lh-m-pdesc font-liebling"><p>' + p.text[0] + '</p>'
+          + (p.text[1] ? '<p class="lh-m-pmore" hidden>' + p.text[1] + '</p><button type="button" class="lh-m-readmore font-liebling" aria-expanded="false">קראו עוד</button>' : '')
+          + '</div>'
+          + '<div class="lh-m-pphoto"><img src="' + photo + '" data-photo="' + photo + '" alt="' + esc(p.title) + '" loading="lazy" decoding="async"></div>'
+          + '<p class="lh-m-plabel font-liebling-light">' + PROJECT_MORE + '</p>'
+          + '<div class="lh-m-pthumbs">' + PROJECT_THUMBS.map(function (t) {
+              return '<button type="button" class="lh-m-thumb" data-src="' + t + '" aria-label="תמונה נוספת מהפרויקט"><img src="' + t + '" alt="" loading="lazy" decoding="async"></button>';
+            }).join('') + '</div>'
+          + '</article>';
+      }).join('');
+      host.addEventListener('click', function (e) {
+        var more = e.target.closest ? e.target.closest('.lh-m-readmore') : null;
+        if (more) {
+          var open = more.getAttribute('aria-expanded') !== 'true';
+          var para = more.parentNode.querySelector('.lh-m-pmore');
+          if (para) para.hidden = !open;
+          more.setAttribute('aria-expanded', open ? 'true' : 'false');
+          more.textContent = open ? 'הצג פחות' : 'קראו עוד';
+          return;
+        }
+        var b = e.target.closest ? e.target.closest('.lh-m-thumb') : null;
+        if (!b) return;
+        var art = b.closest('.lh-m-proj'), img = art.querySelector('.lh-m-pphoto img');
+        var was = b.classList.contains('active');
+        [].forEach.call(art.querySelectorAll('.lh-m-thumb'), function (x) { x.classList.remove('active'); });
+        if (!was) b.classList.add('active');
+        var src = was ? img.getAttribute('data-photo') : b.getAttribute('data-src');
+        img.style.opacity = '0';
+        setTimeout(function () { img.onload = function () { img.style.opacity = '1'; }; img.src = src; }, 180);
+      });
+    }
+
+    // lazy backgrounds + video, leaf reveal
+    var vision = document.getElementById('lhMVision');
+    var video = vision && vision.querySelector('video');
+    function loadBg(el) { var u = el.getAttribute('data-bg'); if (u) { el.style.backgroundImage = 'url(' + u + ')'; el.removeAttribute('data-bg'); } }
+    var bgs = [].slice.call(root.querySelectorAll('[data-bg]'));
+    if (!('IntersectionObserver' in window)) {
+      bgs.forEach(loadBg);
+      if (vision) vision.classList.add('is-in');
+      return;
+    }
+    var bgIo = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting) { loadBg(en.target); bgIo.unobserve(en.target); } });
+    }, { rootMargin: '600px 0px' });
+    bgs.forEach(function (el) { bgIo.observe(el); });
+    if (vision) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (en) { if (en.isIntersecting) vision.classList.add('is-in'); });
+      }, { threshold: 0.25 }).observe(vision);
+    }
+    if (video && !reduce) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+          if (en.isIntersecting) {
+            if (!video.getAttribute('src')) { video.src = video.getAttribute('data-src'); video.load(); }
+            var pr = video.play(); if (pr && pr.catch) pr.catch(function () {});
+          } else { video.pause(); }
+        });
+      }, { rootMargin: '200px 0px' }).observe(vision);
+    }
   })();
 </script>
 </body>
