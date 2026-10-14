@@ -168,20 +168,22 @@
   .lh-m-hp{ top:493px; width:276px; white-space:normal; font-size:16px; line-height:16px; letter-spacing:-.12px; }
 
   /* story */
-  .lh-m-s1{ display:block; width:calc(100% - 18px); height:auto; margin:0 11px 0 7px; aspect-ratio:412/527; object-fit:cover; }
-  .lh-m-stxt{ padding:4px 18px 0 29px; text-align:right; }
-  .lh-m-h2s{ margin:-5px 0 0; font-size:48px; line-height:48px; }
-  .lh-m-body{ margin-top:10px; font-size:18px; line-height:24px; }
+  .lh-m-s1{ display:block; width:calc(100% - 18px); height:auto; margin:0 11px 0 7px; aspect-ratio:412/403; object-fit:cover; }
+  .lh-m-stxt{ padding:17px 18px 0 29px; text-align:right; }
+  .lh-m-h2s{ margin:-5px 0 0; font-size:35px; line-height:35px; }
+  .lh-m-body{ margin-top:7px; font-size:18px; line-height:24px; }
   .lh-m-body p{ margin:0; }
-  .lh-m-s2{ display:block; width:calc(100% - 25px); height:auto; margin:19px 14px 0 11px; aspect-ratio:405/390; object-fit:cover; }
+  .lh-m-s2{ display:block; width:calc(100% - 25px); height:auto; margin:26px 14px 0 11px; aspect-ratio:405/390; object-fit:cover; }
 
   /* projects */
-  .lh-m-phead{ margin-top:34px; text-align:center; }
+  .lh-m-phead{ margin-top:35px; text-align:center; }
   .lh-m-phead h2{ margin:-18px 0 0; font-size:35px; line-height:35px; }
-  .lh-m-proj{ position:relative; isolation:isolate; margin-top:34px; }
+  .lh-m-proj{ position:relative; isolation:isolate; margin-top:35px; }
   .lh-m-proj + .lh-m-proj{ margin-top:32px; }
   .lh-m-proj + .lh-m-proj + .lh-m-proj{ margin-top:38px; }
   .lh-m-proj::before{ content:''; position:absolute; z-index:-1; left:-80px; top:-146px; width:602px; height:625px; pointer-events:none; background:radial-gradient(ellipse 298px 309px at 50% 50%, #005160 0, rgba(0,81,96,0) 100%); }
+  .lh-m-proj:nth-child(1)::before{ left:-1px; top:-140px; width:428px; background:radial-gradient(ellipse 212px 309px at 50% 50%, #005160 0, rgba(0,81,96,0) 100%); }
+  .lh-m-proj:nth-child(1) .lh-m-pphoto{ margin-top:16px; }
   .lh-m-proj:nth-child(2)::before{ top:-62px; }
   .lh-m-proj:nth-child(3)::before{ top:0; }
   .lh-m-ptitle{ margin:0 0 9px; padding:0 23px 0 0; font-size:24px; line-height:40px; text-align:right; }
@@ -219,9 +221,8 @@
   .lh-m-vp{ position:absolute; left:15px; right:12px; top:259px; margin:0; font-size:24px; line-height:32px; text-align:center; }
 
   /* services: three full-height bands with a coloured card */
-  .lh-m-svchead{ height:83px; text-align:center; }
-  .lh-m-svchead .lh-m-label{ height:36px; line-height:36px; }
-  .lh-m-svchead h2{ margin:0; font-size:36px; line-height:44px; }
+  .lh-m-svchead{ height:137px; padding-top:34px; text-align:center; }
+  .lh-m-svchead h2{ margin:-19px 0 0; font-size:35px; line-height:35px; }
   .lh-m-band{ position:relative; height:1080px; display:flex; justify-content:center; padding-top:276px; background:#adadad center/cover no-repeat; }
   .lh-m-band:nth-of-type(2){ background-color:#5e5e5e; }
   .lh-m-scard{ position:relative; width:min(400px, calc(100% - 30px)); height:612px; color:#e0d1b6; }
@@ -230,9 +231,9 @@
   .lh-m-scard__label{ position:absolute; left:20px; right:20px; bottom:20px; margin:0; font-size:28px; line-height:34px; text-align:right; }
 
   /* testimonials */
-  .lh-m-thead{ padding-top:89px; text-align:center; }
-  .lh-m-thead h2{ margin:-11px 0 0; font-size:40px; line-height:40px; }
-  .lh-m-cards{ display:flex; flex-direction:column; gap:29px; margin:59px 19px 0 23px; padding-bottom:54px; }
+  .lh-m-thead{ padding-top:25px; text-align:center; }
+  .lh-m-thead h2{ margin:-11px 0 0; font-size:35px; line-height:35px; }
+  .lh-m-cards{ display:flex; flex-direction:column; gap:29px; margin:25px 19px 0 23px; padding-bottom:54px; }
   .lh-m-quote{ display:flex; flex-direction:column; gap:16px; min-height:237px; margin:0; padding:32px; background:#0d3a2b; border:1px solid var(--border-accent); border-radius:12px; box-shadow:0 1px 2px rgba(10,13,18,.05); text-align:right; }
   .lh-m-quote p{ margin:0; flex:1; font-size:16px; line-height:24px; }
   .lh-m-quote footer{ display:flex; align-items:center; gap:8px; }
