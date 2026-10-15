@@ -25,8 +25,8 @@
   .font-storyscript{ font-family:'Text Me One', 'Caveat', sans-serif; direction:ltr; }
 
   html{ margin:0; overflow-x:hidden; overflow-x:clip; width:100%; }
-  .lahav-canvas-frame{ position:relative; width:100%; aspect-ratio:1920/12307; overflow:hidden; overflow:clip; }
-  .lahav-canvas{ position:absolute; top:0; left:0; width:1920px; height:12307px; transform-origin:0 0; color:#fff; }
+  .lahav-canvas-frame{ position:relative; width:100%; aspect-ratio:1920/11467; overflow:hidden; overflow:clip; }
+  .lahav-canvas{ position:absolute; top:0; left:0; width:1920px; height:11467px; transform-origin:0 0; color:#fff; }
   .lahav-header-frame{ position:fixed; top:0; left:0; width:100%; aspect-ratio:1920/87; overflow:hidden; z-index:50; }
   .lh-wa-fixed{ position:fixed; left:calc(26px * var(--lh-z, 1)); bottom:calc(28px * var(--lh-z, 1)); z-index:45; transform:scale(var(--lh-z, 1)); transform-origin:0 100%; }
   .lahav-header-canvas{ position:absolute; top:0; left:0; width:1920px; height:87px; transform-origin:0 0; direction:ltr; }
@@ -427,7 +427,7 @@
   <!-- SERVICES — heading + pinned stepper -->
   <p class="font-storyscript absolute whitespace-nowrap uppercase" style="left:960.5px; top:7836px; margin:0; transform:translateX(-50%); font-size:24px; line-height:53px; color:var(--gold);">what we do</p>
   <h2 class="font-liebling absolute whitespace-nowrap" style="left:960.5px; top:7870px; margin:0; transform:translateX(-50%); font-size:48px; line-height:normal;">מה אנחנו עושים</h2>
-  <div id="svc-wrap" class="absolute" style="left:0; top:7971px; width:1920px; height:3240px;">
+  <div id="svc-wrap" class="absolute" style="left:0; top:7971px; width:1920px; height:2400px;">
     <div class="svc-stage" id="svcStage">
     <div class="svc-bg" data-i="0"><div class="svc-bg__img" style="background-image:url(images/service-bg-1.jpg);"></div></div>
     <div class="svc-bg" data-i="1"><div class="svc-bg__img" style="background-image:url(images/service-bg-2.jpg);"></div></div>
@@ -453,6 +453,8 @@
     </div>
   </div>
 
+  <!-- everything below the services is pulled up by 840px (shorter services scroll) -->
+  <div id="lhTail" class="absolute" style="left:0; top:-840px; width:1920px; height:12565px;">
   <!-- TESTIMONIALS -->
   <p class="font-storyscript absolute whitespace-nowrap uppercase" style="left:960px; top:11330px; margin:0; transform:translateX(-50%); font-size:24px; line-height:53px; color:var(--gold);">testimonials</p>
   <h2 class="font-liebling absolute whitespace-nowrap" style="left:747px; top:11366px; width:426px; margin:0; font-size:48px; line-height:normal; text-align:center;">לקוחות שלנו ממליצים</h2>
@@ -513,6 +515,7 @@
     <span class="font-notosans" style="font-size:16px; line-height:22px; direction:rtl;">עוצב ופותח ע״י</span>
   </a>
 
+  </div><!-- /lhTail -->
   </div><!-- /lhPostHero -->
 </div>
 </div>
@@ -766,7 +769,7 @@
     var card = document.getElementById('svcCard');
     var frame = document.querySelector('.lahav-canvas-frame');
     if (!wrap || !stage || !frame) return;
-    var TOP = 7971 - LH.shift, TOTAL = 3240, HEADER = 87;
+    var TOP = 7971 - LH.shift, TOTAL = 2400, HEADER = 87;
     var bgs = [].slice.call(stage.querySelectorAll('.svc-bg'));
     var items = [].slice.call(card.querySelectorAll('.svc-item'));
     var N = items.length, stageH = 0;
