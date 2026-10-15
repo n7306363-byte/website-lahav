@@ -1,0 +1,8 @@
+{
+  "name": "website-lahav",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static site + small admin (api/save) that commits content changes to GitHub",
+  "engines": { "node": ">=20" },
+  "scripts": { "build:site": "node tools/build.js", "test": "node tools/test.js" }
+}

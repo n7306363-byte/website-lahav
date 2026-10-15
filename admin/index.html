@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ניהול האתר — ש.ל להב</title>
+<style>
+  :root{ --bg:#eef2ef; --card:#fff; --ink:#10261e; --muted:#5d6f67; --line:#d5dfd9; --brand:#0a2f23; --accent:#1e8c5d; --warn:#b4541a; --err:#b3261e; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 "Segoe UI", Arial, "Noto Sans Hebrew", sans-serif; }
+  header.top{ position:sticky; top:0; z-index:10; background:var(--brand); color:#fff; display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:10px 20px; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+  header.top h1{ font-size:18px; margin:0; flex:1 1 auto; font-weight:600; }
+  header.top .who{ font-size:14px; opacity:.85; }
+  button{ font:inherit; cursor:pointer; border-radius:8px; border:1px solid var(--line); background:#fff; color:var(--ink); padding:8px 14px; }
+  button.primary{ background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600; }
+  button.primary:disabled{ opacity:.45; cursor:default; }
+  button.link{ background:none; border:0; color:var(--accent); padding:4px 6px; text-decoration:underline; }
+  main{ max-width:960px; margin:0 auto; padding:20px 16px 120px; }
+  .banner{ border-radius:10px; padding:12px 16px; margin:0 0 16px; border:1px solid; }
+  .banner.info{ background:#e6f3ec; border-color:#b7dcc8; }
+  .banner.warn{ background:#fff3e6; border-color:#f0c9a0; color:#6b3a10; }
+  .banner.ok{ background:#e3f6e9; border-color:#9fd6b0; }
+  .banner.err{ background:#fdeceb; border-color:#f2b8b5; color:var(--err); }
+  section.card{ background:var(--card); border:1px solid var(--line); border-radius:14px; margin:0 0 16px; overflow:hidden; }
+  section.card > summary, section.card > .head{ list-style:none; cursor:pointer; padding:14px 18px; font-weight:700; font-size:18px; display:flex; align-items:center; gap:10px; background:#f6f9f7; }
+  section.card > summary::-webkit-details-marker{ display:none; }
+  section.card > summary::after{ content:"▾"; margin-inline-start:auto; color:var(--muted); }
+  section.card[open] > summary::after{ content:"▴"; }
+  .body{ padding:16px 18px 20px; display:grid; gap:14px; }
+  .sub{ border:1px solid var(--line); border-radius:12px; padding:14px; display:grid; gap:12px; background:#fcfdfc; }
+  .sub h3{ margin:0; font-size:16px; color:var(--brand); }
+  label.f{ display:grid; gap:4px; font-size:14px; color:var(--muted); }
+  label.f input[type=text], label.f textarea{ font:inherit; color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:8px 10px; width:100%; background:#fff; }
+  label.f textarea{ min-height:96px; resize:vertical; line-height:1.55; }
+  .row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+  .img{ display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap; }
+  .img .pv{ width:150px; height:110px; border:1px solid var(--line); border-radius:10px; background:#e9efeb center/cover no-repeat; overflow:hidden; position:relative; }
+  .img .pv img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .img.round .pv{ width:96px; height:96px; border-radius:50%; }
+  .img.small .pv{ width:88px; height:88px; }
+  .img .ctl{ display:grid; gap:6px; font-size:14px; color:var(--muted); min-width:180px; }
+  .img .ctl input[type=range]{ width:100%; }
+  .thumbs{ display:flex; gap:12px; flex-wrap:wrap; }
+  .tag{ font-size:12px; background:#eaf3ee; color:var(--accent); border-radius:99px; padding:1px 8px; }
+  .tag.new{ background:#fff0d9; color:var(--warn); }
+  .hint{ font-size:13px; color:var(--muted); }
+  footer.bar{ position:fixed; inset:auto 0 0 0; background:#fff; border-top:1px solid var(--line); padding:10px 20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; z-index:10; }
+  footer.bar .msg{ flex:1 1 260px; font-size:14px; }
+  .signin{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .spinner{ display:inline-block; width:14px; height:14px; border:2px solid #ffffff80; border-top-color:#fff; border-radius:50%; animation:sp .8s linear infinite; vertical-align:-2px; margin-inline-end:6px; }
+  @keyframes sp{ to{ transform:rotate(360deg);} }
+  [hidden]{ display:none !important; }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>ניהול האתר — ש.ל להב פיתוח ונוי</h1>
+  <span class="who" id="who"></span>
+  <a href="/" target="_blank" rel="noopener" style="color:#bfe9d3">צפייה באתר ↗</a>
+</header>
+
+<main>
+  <div id="banners"></div>
+
+  <div class="banner info" id="signinBox">
+    <div class="signin">
+      <strong>כדי לערוך ולפרסם צריך להתחבר עם חשבון גוגל מורשה.</strong>
+      <span id="gbtn"></span>
+      <button id="devLogin" hidden>כניסת פיתוח (לוקאלי)</button>
+    </div>
+  </div>
+
+  <div id="app"><p class="hint">טוען את התוכן…</p></div>
+</main>
+
+<footer class="bar">
+  <div class="msg" id="status">אין שינויים.</div>
+  <button id="discard" hidden>בטל שינויים</button>
+  <button class="primary" id="save" disabled>שמור ופרסם</button>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var el = function (tag, attrs, kids) {
+    var n = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === 'class') n.className = attrs[k];
+      else if (k === 'text') n.textContent = attrs[k];
+      else if (k.slice(0, 2) === 'on') n.addEventListener(k.slice(2), attrs[k]);
+      else if (attrs[k] !== false && attrs[k] != null) n.setAttribute(k, attrs[k] === true ? '' : attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c != null) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return n;
+  };
+
+  var cfg = { googleClientId: '', configured: false, devMode: false };
+  var content = null, snapshot = '';
+  var pending = {};            // path -> { data: base64, preview: dataURL }
+  var token = '', tokenExp = 0, email = '';
+  var busy = false;
+
+  // ---------------------------------------------------------------- images
+  var SIZES = { photo: 1600, card: 1000, bg: 2200, avatar: 420, thumb: 700 };
+  function resizeToJpeg(file, maxSide) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        var w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, maxSide / Math.max(w, h));
+        var cw = Math.round(w * k), ch = Math.round(h * k);
+        var c = document.createElement('canvas'); c.width = cw; c.height = ch;
+        var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cw, ch);
+        ctx.drawImage(img, 0, 0, cw, ch);
+        URL.revokeObjectURL(url);
+        var q = 0.84, data;
+        for (var i = 0; i < 4; i++) {
+          data = c.toDataURL('image/jpeg', q);
+          if (data.length * 0.75 < 700 * 1024) break;
+          q -= 0.1;
+        }
+        resolve({ dataUrl: data, base64: data.split(',')[1] });
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('לא ניתן לקרוא את הקובץ כתמונה')); };
+      img.src = url;
+    });
+  }
+  function newPath(kind) {
+    return 'images/uploads/' + kind + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6) + '.jpg';
+  }
+  function srcFor(path) { return pending[path] ? pending[path].preview : '/' + path; }
+
+  // image field: opts { kind, round, small, get(), set(path), pos?:{get,set} }
+  function imageField(label, opts) {
+    var wrap = el('div', { class: 'img' + (opts.round ? ' round' : '') + (opts.small ? ' small' : '') });
+    var pv = el('div', { class: 'pv' });
+    var im = el('img', { alt: '' });
+    pv.appendChild(im);
+    var file = el('input', { type: 'file', accept: 'image/*', hidden: true });
+    var btn = el('button', { type: 'button', text: 'החלפת תמונה', onclick: function () { file.click(); } });
+    var tag = el('span', { class: 'tag', text: 'קיימת' });
+    var ctl = el('div', { class: 'ctl' }, [el('strong', { text: label }), el('div', {}, [btn, ' ', tag]), file]);
+    var sx, sy;
+    function refresh() {
+      var p = opts.get();
+      im.src = srcFor(p);
+      var pos = opts.pos ? opts.pos.get() : '';
+      im.style.objectPosition = pos || '50% 50%';
+      tag.textContent = pending[p] ? 'חדשה — תישמר בפרסום' : 'קיימת'; tag.className = 'tag' + (pending[p] ? ' new' : '');
+      if (opts.pos && sx) { var m = /^(\d+)% (\d+)%$/.exec(pos || '50% 50%'); sx.value = m ? m[1] : 50; sy.value = m ? m[2] : 50; }
+    }
+    if (opts.pos) {
+      sx = el('input', { type: 'range', min: 0, max: 100, value: 50 });
+      sy = el('input', { type: 'range', min: 0, max: 100, value: 50 });
+      var upd = function () { opts.pos.set(sx.value + '% ' + sy.value + '%'); refresh(); markDirty(); };
+      sx.addEventListener('input', upd); sy.addEventListener('input', upd);
+      ctl.appendChild(el('label', { class: 'hint' }, ['מיקום אופקי', sx]));
+      ctl.appendChild(el('label', { class: 'hint' }, ['מיקום אנכי', sy]));
+    }
+    file.addEventListener('change', function () {
+      var f = file.files && file.files[0]; if (!f) return;
+      tag.textContent = 'מעבד…';
+      resizeToJpeg(f, SIZES[opts.kind] || 1600).then(function (r) {
+        var path = newPath(opts.kind);
+        pending[path] = { data: r.base64, preview: r.dataUrl };
+        opts.set(path);
+        if (opts.pos) opts.pos.set('');
+        refresh(); markDirty();
+      }).catch(function (e) { alert(e.message); refresh(); });
+      file.value = '';
+    });
+    wrap.appendChild(pv); wrap.appendChild(ctl);
+    refresh();
+    return wrap;
+  }
+
+  // ---------------------------------------------------------------- text fields
+  function textField(label, obj, key, opts) {
+    opts = opts || {};
+    var input = opts.multi ? el('textarea', {}) : el('input', { type: 'text' });
+    input.value = obj[key] == null ? '' : obj[key];
+    input.addEventListener('input', function () { obj[key] = input.value; markDirty(); });
+    if (opts.rows) input.rows = opts.rows;
+    return el('label', { class: 'f' }, [label, input]);
+  }
+  function paragraphsField(label, obj, key, max) {
+    var host = el('div', { class: 'sub' });
+    function draw() {
+      host.textContent = '';
+      host.appendChild(el('h3', { text: label }));
+      obj[key].forEach(function (_, i) {
+        var ta = el('textarea', {}); ta.value = obj[key][i];
+        ta.addEventListener('input', function () { obj[key][i] = ta.value; markDirty(); });
+        var row = el('label', { class: 'f' }, ['פסקה ' + (i + 1), ta]);
+        if (obj[key].length > 1) row.appendChild(el('button', { type: 'button', class: 'link', text: 'מחיקת הפסקה', onclick: function () { obj[key].splice(i, 1); draw(); markDirty(); } }));
+        host.appendChild(row);
+      });
+      if (obj[key].length < max) host.appendChild(el('button', { type: 'button', text: '+ הוספת פסקה', onclick: function () { obj[key].push(''); draw(); markDirty(); } }));
+    }
+    draw();
+    return host;
+  }
+  function card(title, open, kids) {
+    var d = el('details', { class: 'card' });
+    if (open) d.setAttribute('open', '');
+    d.appendChild(el('summary', { text: title }));
+    d.appendChild(el('div', { class: 'body' }, kids));
+    return d;
+  }
+
+  // ---------------------------------------------------------------- build the form
+  function build() {
+    var app = $('#app'); app.textContent = '';
+    var c = content;
+
+    app.appendChild(card('ההירו (הכותרת הראשית)', true, [
+      textField('כותרת קטנה', c.hero, 'sub'),
+      el('div', { class: 'row' }, [textField('כותרת — שורה ראשונה', c.hero, 'title1'), textField('כותרת — שורה שנייה (גדולה)', c.hero, 'title2')]),
+      textField('פסקה', c.hero, 'text', { multi: true }),
+    ]));
+
+    app.appendChild(card('הסיפור שלנו', false, [
+      el('div', { class: 'row' }, [textField('תווית קטנה', c.story, 'label'), textField('כותרת', c.story, 'title')]),
+      paragraphsField('פסקאות', c.story, 'paragraphs', 8),
+    ]));
+
+    var projects = c.projects.map(function (p, i) {
+      var thumbs = el('div', { class: 'thumbs' });
+      for (var k = 0; k < 4; k++) (function (k) {
+        if (!p.thumbs) p.thumbs = [];
+        thumbs.appendChild(imageField('תמונה נוספת ' + (k + 1), { kind: 'thumb', small: true,
+          get: function () { return p.thumbs[k]; }, set: function (v) { p.thumbs[k] = v; } }));
+      })(k);
+      return el('div', { class: 'sub' }, [
+        el('h3', { text: 'פרוייקט ' + (i + 1) }),
+        textField('כותרת', p, 'title'),
+        paragraphsField('טקסט', p, 'paragraphs', 3),
+        imageField('תמונה ראשית', { kind: 'photo',
+          get: function () { return p.photo; },
+          set: function (v) { p.photo = v; delete p.photoMobile; delete p.crop; },
+          pos: { get: function () { return p.pos || ''; }, set: function (v) { if (v) p.pos = v; else delete p.pos; delete p.crop; } } }),
+        el('strong', { text: 'תמונות נוספות' }),
+        thumbs,
+      ]);
+    });
+    app.appendChild(card('פרוייקטים', false, [
+      textField('כיתוב מעל התמונות הנוספות', c.projectsSection, 'more')
+    ].concat(projects)));
+
+    app.appendChild(card('כרטיסיות השירותים (מה אנחנו עושים)', false, c.services.map(function (s, i) {
+      var colorInput = el('input', { type: 'color', value: s.color });
+      colorInput.addEventListener('input', function () { s.color = colorInput.value; markDirty(); });
+      return el('div', { class: 'sub' }, [
+        el('h3', { text: 'כרטיסייה ' + (i + 1) }),
+        textField('כותרת', s, 'title'),
+        el('label', { class: 'f' }, ['צבע הכרטיסייה', colorInput]),
+        imageField('תמונת הכרטיסייה', { kind: 'card',
+          get: function () { return s.image; }, set: function (v) { s.image = v; s.imageMobile = v; } }),
+        imageField('תמונת רקע (מאחורי הכרטיסייה)', { kind: 'bg',
+          get: function () { return s.bg; }, set: function (v) { s.bg = v; } }),
+      ]);
+    })));
+
+    app.appendChild(card('המלצות', false, c.testimonials.map(function (t, i) {
+      return el('div', { class: 'sub' }, [
+        el('h3', { text: 'ממליץ ' + (i + 1) }),
+        el('div', { class: 'row' }, [textField('שם', t, 'name')]),
+        textField('טקסט ההמלצה', t, 'text', { multi: true }),
+        imageField('תמונה', { kind: 'avatar', round: true,
+          get: function () { return t.photo; }, set: function (v) { t.photo = v; delete t.legacy; },
+          pos: { get: function () { return t.pos || ''; }, set: function (v) { if (v) t.pos = v; else delete t.pos; delete t.legacy; } } }),
+      ]);
+    })));
+
+    app.appendChild(card('כותרות הסקשנים', false, [
+      el('div', { class: 'sub' }, [el('h3', { text: 'פרוייקטים' }), el('div', { class: 'row' }, [textField('תווית קטנה', c.projectsSection, 'label'), textField('כותרת', c.projectsSection, 'title')])]),
+      el('div', { class: 'sub' }, [el('h3', { text: 'החזון שלנו' }), el('div', { class: 'row' }, [textField('תווית קטנה', c.vision, 'label'), textField('כותרת', c.vision, 'title')]), textField('טקסט', c.vision, 'text', { multi: true })]),
+      el('div', { class: 'sub' }, [el('h3', { text: 'מה אנחנו עושים' }), el('div', { class: 'row' }, [textField('תווית קטנה', c.servicesSection, 'label'), textField('כותרת', c.servicesSection, 'title')])]),
+      el('div', { class: 'sub' }, [el('h3', { text: 'המלצות' }), el('div', { class: 'row' }, [textField('תווית קטנה', c.testimonialsSection, 'label'), textField('כותרת', c.testimonialsSection, 'title')])]),
+    ]));
+  }
+
+  // ---------------------------------------------------------------- state / save
+  function referenced() {
+    var s = JSON.stringify(content); var out = [];
+    Object.keys(pending).forEach(function (p) { if (s.indexOf(p) >= 0) out.push(p); });
+    return out;
+  }
+  function dirty() { return JSON.stringify(content) !== snapshot || referenced().length > 0; }
+  function setStatus(msg, kind) {
+    var s = $('#status'); s.textContent = msg; s.style.color = kind === 'err' ? 'var(--err)' : kind === 'ok' ? 'var(--accent)' : '';
+  }
+  function markDirty() {
+    var d = dirty();
+    $('#save').disabled = busy || !d || !token;
+    $('#discard').hidden = !d;
+    if (!busy) setStatus(d ? (token ? 'יש שינויים שלא פורסמו.' : 'יש שינויים — התחבר כדי לפרסם.') : 'אין שינויים.');
+  }
+  function banner(kind, html) {
+    var b = el('div', { class: 'banner ' + kind }); b.innerHTML = html; return b;
+  }
+
+  function save() {
+    if (busy || !token) return;
+    if (tokenExp && tokenExp < Date.now()) { setStatus('ההתחברות פגה — התחבר שוב כדי לפרסם.', 'err'); signedOut(); return; }
+    busy = true; $('#save').disabled = true;
+    $('#save').innerHTML = '<span class="spinner"></span>שומר…';
+    var uploads = referenced().map(function (p) { return { path: p, data: pending[p].data }; });
+    var bytes = uploads.reduce(function (n, u) { return n + u.data.length; }, 0);
+    if (bytes > 4.2 * 1024 * 1024) {
+      busy = false; $('#save').textContent = 'שמור ופרסם'; markDirty();
+      setStatus('התמונות החדשות גדולות מדי לשמירה אחת — שמור בכמה שלבים (פחות תמונות בכל פעם).', 'err');
+      return;
+    }
+    fetch('/api/save', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ content: content, uploads: uploads }) })
+      .then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); })
+      .then(function (r) {
+        if (r.status === 401 || r.status === 403) { setStatus(r.body.error || 'אין הרשאה', 'err'); if (r.status === 401) signedOut(); throw new Error('auth'); }
+        if (!r.body.ok) throw new Error(r.body.error || 'שגיאה בשמירה');
+        snapshot = JSON.stringify(content);
+        pending = {};
+        build();
+        setStatus('נשמר ופורסם ✓  האתר יתעדכן תוך כ-30 שניות.', 'ok');
+        $('#banners').textContent = '';
+        $('#banners').appendChild(banner('ok', 'השינויים נשלחו לפרסום. הרענון באתר יראה אותם בעוד כחצי דקה. <a href="/" target="_blank" rel="noopener">פתח את האתר</a>'));
+      })
+      .catch(function (e) { if (e.message !== 'auth') setStatus('לא נשמר: ' + e.message, 'err'); })
+      .then(function () { busy = false; $('#save').textContent = 'שמור ופרסם'; markDirty(); });
+  }
+
+  // ---------------------------------------------------------------- auth
+  function decodeJwt(t) {
+    try { return JSON.parse(decodeURIComponent(escape(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { return {}; }
+  }
+  function signedIn(t, mail, exp) {
+    token = t; email = mail || ''; tokenExp = exp || 0;
+    $('#who').textContent = email;
+    $('#signinBox').hidden = true;
+    markDirty();
+  }
+  function signedOut() {
+    token = ''; $('#signinBox').hidden = false; $('#who').textContent = ''; markDirty();
+  }
+  function initGoogle() {
+    if (!cfg.googleClientId) return;
+    var s = el('script', { src: 'https://accounts.google.com/gsi/client', async: true, defer: true });
+    s.onload = function () {
+      window.google.accounts.id.initialize({
+        client_id: cfg.googleClientId,
+        callback: function (resp) {
+          var p = decodeJwt(resp.credential);
+          signedIn(resp.credential, p.email, (p.exp || 0) * 1000);
+        },
+        auto_select: false,
+      });
+      window.google.accounts.id.renderButton($('#gbtn'), { theme: 'outline', size: 'large', text: 'signin_with', locale: 'he' });
+    };
+    document.head.appendChild(s);
+  }
+
+  // ---------------------------------------------------------------- start
+  $('#save').addEventListener('click', save);
+  $('#discard').addEventListener('click', function () {
+    if (!confirm('לבטל את כל השינויים שלא פורסמו?')) return;
+    content = JSON.parse(snapshot); pending = {}; build(); markDirty();
+  });
+  window.addEventListener('beforeunload', function (e) { if (dirty()) { e.preventDefault(); e.returnValue = ''; } });
+
+  Promise.all([
+    fetch('/api/config', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }),
+    fetch('/content.json?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); }),
+  ]).then(function (res) {
+    cfg = Object.assign(cfg, res[0] || {});
+    content = res[1]; snapshot = JSON.stringify(content);
+    build(); markDirty();
+    var b = $('#banners');
+    if (!cfg.configured && !cfg.devMode) {
+      b.appendChild(banner('warn', '<strong>המערכת עדיין לא הוגדרה לשמירה.</strong> חסרים משתני סביבה ב-Vercel (GOOGLE_CLIENT_ID, ALLOWED_EMAILS, GITHUB_TOKEN). אפשר לעיין בתוכן, אבל לא לפרסם.'));
+    }
+    if (cfg.devMode) {
+      $('#devLogin').hidden = false;
+      $('#devLogin').addEventListener('click', function () { signedIn('dev', 'dev@localhost', 0); });
+    }
+    initGoogle();
+  }).catch(function (e) {
+    $('#app').textContent = 'שגיאה בטעינת התוכן: ' + e.message;
+  });
+})();
+</script>
+</body>
+</html>

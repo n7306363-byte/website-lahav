@@ -627,19 +627,10 @@
 
   // projects — scroll-pinned stepper, laid out exactly like the Figma frame.
   // Edit title / text / photos here. Rects are in design coordinates, relative to the text box's top edge.
-  var PROJECT_TITLE = "הקמת גינה בשכונת שרונית בלהבים";
   var PROJECT_MORE = "תמונות נוספות מהפרוייקט";
-  var PROJECT_TEXT = [
-    "בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.",
-    "כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."
-  ];
-  // crop: how the photo sits inside its rect (% of the rect) — Figma's own crop for each photo
-  var PROJECTS = [
-    { title: PROJECT_TITLE, text: PROJECT_TEXT, photo: "images/project-1-pool.jpg",   img: { x: 140, y: -40, w: 821, h: 931 }, crop: { l: -36.54, t: -0.54, w: 173.08, h: 101.72 }, box: { x: 961, padR: 0 } },
-    { title: PROJECT_TITLE, text: PROJECT_TEXT, photo: "images/project-2-night.jpg", img: { x: 961, y: -40, w: 820, h: 930 }, box: { x: 132, padR: 24 } },
-    { title: PROJECT_TITLE, text: PROJECT_TEXT, photo: "images/project-3-canal.jpg", img: { x: 139, y: -40, w: 820, h: 931 }, box: { x: 961, padR: 0 } }
-  ];
-  var PROJECT_THUMBS = ["images/thumb-deck.jpg", "images/thumb-sunset.jpg", "images/thumb-lawn.jpg", "images/thumb-coffee.jpg"];
+  // texts and photos come from content.json (admin); rects / box positions are layout and live in lib/render.js
+  var PROJECTS = [{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-1-pool.jpg","photoMobile":"images/m-project-1.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"img":{"x":140,"y":-40,"w":821,"h":931},"crop":{"l":-36.54,"t":-0.54,"w":173.08,"h":101.72},"box":{"x":961,"padR":0}},{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-2-night.jpg","photoMobile":"images/m-project-2.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"img":{"x":961,"y":-40,"w":820,"h":930},"box":{"x":132,"padR":24}},{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-3-canal.jpg","photoMobile":"images/m-project-3.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"img":{"x":139,"y":-40,"w":820,"h":931},"box":{"x":961,"padR":0}}];
+  var PROJECT_THUMBS = ["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"];
 
   (function () {
     var host = document.getElementById('projects');
@@ -651,7 +642,7 @@
     var html = '<div class="proj-stage" id="projStage"><div class="proj-row">';
     PROJECTS.forEach(function (p, i) {
       var c = p.crop;
-      var imgStyle = c ? 'left:' + c.l + '%; top:' + c.t + '%; width:' + c.w + '%; height:' + c.h + '%;' : 'left:0; top:0; width:100%; height:100%;';
+      var imgStyle = c ? 'left:' + c.l + '%; top:' + c.t + '%; width:' + c.w + '%; height:' + c.h + '%;' : 'left:0; top:0; width:100%; height:100%;' + (p.pos ? ' object-position:' + p.pos + ';' : '');
       html += '<div class="proj-img" data-i="' + i + '" style="left:' + p.img.x + 'px; top:' + p.img.y + 'px; width:' + p.img.w + 'px; height:' + p.img.h + 'px;">'
         + '<div class="proj-img__wipe"><img src="' + p.photo + '" alt="' + p.title + '" style="' + imgStyle + '" /></div></div>';
       html += '<div class="proj-box" data-i="' + i + '" style="left:' + p.box.x + 'px;">'
@@ -659,7 +650,7 @@
         + '<div class="proj-box__desc font-liebling" style="right:' + (p.box.padR + 3) + 'px;">' + p.text.map(function (t) { return '<p>' + t + '</p>'; }).join('') + '</div>'
         + '<p class="proj-box__more font-liebling-light" style="right:' + p.box.padR + 'px;">' + PROJECT_MORE + '</p>'
         + '<div class="proj-box__thumbs" style="right:' + p.box.padR + 'px;">'
-        + PROJECT_THUMBS.map(function (t) {
+        + (p.thumbs || PROJECT_THUMBS).map(function (t) {
             return '<button type="button" class="thumb-btn" style="width:142px; height:142px; overflow:hidden;" data-project="' + i + '" data-src="' + t + '" aria-label="תמונה נוספת מהפרויקט"><img class="h-full w-full object-cover" src="' + t + '" alt="" /></button>';
           }).join('')
         + '</div></div>';
@@ -773,7 +764,7 @@
     var bgs = [].slice.call(stage.querySelectorAll('.svc-bg'));
     var items = [].slice.call(card.querySelectorAll('.svc-item'));
     var N = items.length, stageH = 0;
-    var CARD_RGB = [[34, 61, 79], [35, 84, 65], [96, 48, 15]];   // card fills: #223d4f (set by the client), #235441, #60300f
+    var CARD_RGB = [[34,61,79],[35,84,65],[96,48,15]];
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
     function ease(x) { return x * x * (3 - 2 * x); }
@@ -1057,11 +1048,10 @@
     // projects — pinned stepper (same behaviour as the desktop one): the photo wipes in from the bottom, the text box swaps
     var host = document.getElementById('lhMProjects');
     if (host && window.PROJECTS) {
-      var PHOTOS = ['images/m-project-1.jpg', 'images/m-project-2.jpg', 'images/m-project-3.jpg'];
       host.innerHTML = '<div class="lh-m-pwrap" id="lhMPrWrap"><div class="lh-m-pstage" id="lhMPrStage">'
         + '<div class="lh-m-pimgs">' + PROJECTS.map(function (p, i) {
-            var photo = PHOTOS[i] || p.photo;
-            return '<div class="lh-m-pimg"><div class="lh-m-pimg__wipe"><img src="' + photo + '" data-photo="' + photo + '" alt="' + esc(p.title) + '" decoding="async"' + (i ? ' loading="lazy"' : '') + '></div></div>';
+            var photo = p.photoMobile || p.photo;
+            return '<div class="lh-m-pimg"><div class="lh-m-pimg__wipe"><img src="' + photo + '" data-photo="' + photo + '" alt="' + esc(p.title) + '" decoding="async"' + (i ? ' loading="lazy"' : '') + (p.pos ? ' style=\"object-position:' + esc(p.pos) + ';\"' : '') + '></div></div>';
           }).join('') + '</div>'
         + '<div class="lh-m-ptexts" id="lhMPrTexts">' + PROJECTS.map(function (p) {
             return '<div class="lh-m-pbox">'
@@ -1070,7 +1060,7 @@
               + (p.text[1] ? '<p class="lh-m-pmore" hidden>' + p.text[1] + '</p><button type="button" class="lh-m-readmore font-liebling" aria-expanded="false">קראו עוד</button>' : '')
               + '</div>'
               + '<p class="lh-m-plabel font-liebling-light">' + PROJECT_MORE + '</p>'
-              + '<div class="lh-m-pthumbs">' + PROJECT_THUMBS.map(function (t) {
+              + '<div class="lh-m-pthumbs">' + (p.thumbs || PROJECT_THUMBS).map(function (t) {
                   return '<button type="button" class="lh-m-thumb" data-src="' + t + '" aria-label="תמונה נוספת מהפרויקט"><img src="' + t + '" alt="" loading="lazy" decoding="async"></button>';
                 }).join('') + '</div>'
               + '</div>';
@@ -1174,7 +1164,7 @@
       var wrap = document.getElementById('lhMSvcWrap'), stage = document.getElementById('lhMSvcStage'), card = document.getElementById('lhMSvcCard');
       if (!wrap || !stage || !card) return;
       var HEADER = 72, N = 3;
-      var CARD_RGB = [[34, 61, 79], [35, 84, 65], [96, 48, 15]];   // #223d4f, #235441, #60300f
+      var CARD_RGB = [[34,61,79],[35,84,65],[96,48,15]];
       var bgs = [].slice.call(stage.querySelectorAll('.lh-m-sbg'));
       var items = [].slice.call(card.querySelectorAll('.lh-m-sitem'));
       var stageH = 0, travel = 1;
