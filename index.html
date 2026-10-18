@@ -31,6 +31,11 @@
   .lahav-canvas-frame{ position:relative; width:100%; aspect-ratio:1920/11467; overflow:hidden; overflow:clip; }
   .lahav-canvas{ position:absolute; top:0; left:0; width:1920px; height:11467px; transform-origin:0 0; color:#fff; }
   .lahav-header-frame{ position:fixed; top:0; left:0; width:100%; aspect-ratio:1920/87; overflow:hidden; z-index:50; }
+  /* #lhPostHero / #lhTail only shift their content up; as big absolute boxes they must not catch clicks meant for the elements under them */
+  #lhPostHero{ pointer-events:none; }
+  #lhPostHero > *{ pointer-events:auto; }
+  #lhTail{ pointer-events:none; }
+  #lhTail > *{ pointer-events:auto; }
   .lh-wa-fixed{ position:fixed; left:calc(26px * var(--lh-z, 1)); bottom:calc(28px * var(--lh-z, 1)); z-index:45; transform:scale(var(--lh-z, 1)); transform-origin:0 100%; }
   .lahav-header-canvas{ position:absolute; top:0; left:0; width:1920px; height:87px; transform-origin:0 0; direction:ltr; }
 
@@ -96,10 +101,15 @@
   .proj-img__wipe{ position:absolute; inset:0; overflow:hidden; will-change:transform; }
   .proj-img__wipe img{ position:absolute; display:block; max-width:none; object-fit:cover; will-change:transform; transition:opacity .35s ease; }
   .proj-box{ position:absolute; top:0; width:820px; height:850px; background:radial-gradient(circle at 50% 50%, rgba(0,81,96,1) 0%, rgba(0,81,96,0) 70%); will-change:opacity,transform; }
-  .proj-box__title{ position:absolute; top:170px; margin:0; font-size:40px; line-height:24px; white-space:nowrap; }
-  .proj-box__desc{ position:absolute; top:226px; width:683px; font-size:18px; line-height:24px; }
+  .proj-box__title{ position:absolute; top:156px; margin:0; font-size:40px; line-height:24px; white-space:nowrap; }
+  .proj-box__desc{ position:absolute; top:211px; width:683px; font-size:18px; line-height:24px; }
   .proj-box__desc p{ margin:0 0 24px; }
   .proj-box__desc p:last-child{ margin-bottom:0; }
+  /* location / size / duration strip under the description (Figma: 34px icon + label/value, 32px between items) */
+  .proj-box__info{ position:absolute; top:484px; display:flex; gap:32px; }
+  .proj-info__item{ display:flex; align-items:center; gap:8px; }
+  .proj-info__item img{ width:34px; height:34px; display:block; flex:none; }
+  .proj-info__txt{ display:flex; flex-direction:column; gap:4px; font-size:15px; line-height:15px; white-space:nowrap; text-align:right; }
   .proj-box__more{ position:absolute; top:668px; margin:0; font-size:18px; line-height:24px; white-space:nowrap; }
   .proj-box__thumbs{ position:absolute; top:708px; display:flex; gap:20px; }
   .thumb-btn{ border:0; cursor:pointer; padding:0; background:none; }
@@ -199,6 +209,10 @@
   .lh-m-pdesc p{ margin:0; }
   .lh-m-pdesc p.lh-m-pmore{ margin-top:12px; }
   .lh-m-readmore{ display:block; width:100%; margin:8px 0 0; padding:0; border:0; background:none; color:inherit; font:inherit; text-align:right; text-decoration:underline; cursor:pointer; }
+  .lh-m-pinfo{ display:flex; flex-wrap:wrap; gap:6px 10px; padding:10px 20px 0 20px; }
+  .lh-m-pinfo .proj-info__item{ gap:5px; }
+  .lh-m-pinfo .proj-info__item img{ width:22px; height:22px; }
+  .lh-m-pinfo .proj-info__txt{ font-size:12px; line-height:13px; gap:2px; }
   .lh-m-plabel{ margin:10px 14px 0 0; font-size:16px; line-height:20px; text-align:right; }
   .lh-m-pthumbs{ display:flex; gap:12px; margin-top:8px; padding:0 14px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
   .lh-m-pthumbs::-webkit-scrollbar{ display:none; }
@@ -632,8 +646,20 @@
   // Edit title / text / photos here. Rects are in design coordinates, relative to the text box's top edge.
   var PROJECT_MORE = "תמונות נוספות מהפרוייקט";
   // texts and photos come from content.json (admin); rects / box positions are layout and live in lib/render.js
-  var PROJECTS = [{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-1-pool.jpg","photoMobile":"images/m-project-1.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"img":{"x":140,"y":-40,"w":821,"h":931},"crop":{"l":-36.54,"t":-0.54,"w":173.08,"h":101.72},"box":{"x":961,"padR":0}},{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-2-night.jpg","photoMobile":"images/m-project-2.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"img":{"x":961,"y":-40,"w":820,"h":930},"box":{"x":132,"padR":24}},{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-3-canal.jpg","photoMobile":"images/m-project-3.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"img":{"x":139,"y":-40,"w":820,"h":931},"box":{"x":961,"padR":0}}];
+  var PROJECTS = [{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-1-pool.jpg","photoMobile":"images/m-project-1.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"info":{"location":"להבים- שכונת שרונית","area":"250 מטר","duration":"שלושה שבועות"},"img":{"x":140,"y":-40,"w":821,"h":931},"crop":{"l":-36.54,"t":-0.54,"w":173.08,"h":101.72},"box":{"x":961,"padR":0}},{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-2-night.jpg","photoMobile":"images/m-project-2.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"info":{"location":"להבים- שכונת שרונית","area":"250 מטר","duration":"שלושה שבועות"},"img":{"x":961,"y":-40,"w":820,"h":930},"box":{"x":132,"padR":24}},{"title":"הקמת גינה בשכונת שרונית בלהבים","text":["בפרויקט הזה הפכנו שטח של כ־250 מ\"ר לגינה פרטית ומרהיבה, המשלבת בין טבע, יוקרה ואיכות חיים. התכנון כלל שילוב של עצי פרי בוגרים המעניקים לגינה אופי ייחודי ותחושת בגרות, מדשאה טבעית ורעננה המוסיפה מרחב ירוק ומזמין, ובריכת שחייה המשתלבת בהרמוניה עם סביבת הגינה.","כל פרט בפרויקט תוכנן בקפידה, מתוך מחשבה על יצירת מרחב חיצוני נעים, פונקציונלי ומעוצב, המאפשר ליהנות מרגעים של רוגע, בילוי משפחתי ואירוח באווירה מושלמת. התוצאה היא גינה שמחברת בין היופי של הטבע לנוחות של החיים המודרניים, והופכת את החצר הפרטית לפינת נופש קסומה ממש מחוץ לדלת הבית."],"photo":"images/project-3-canal.jpg","photoMobile":"images/m-project-3.jpg","thumbs":["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"],"info":{"location":"להבים- שכונת שרונית","area":"250 מטר","duration":"שלושה שבועות"},"img":{"x":139,"y":-40,"w":820,"h":931},"box":{"x":961,"padR":0}}];
   var PROJECT_THUMBS = ["images/thumb-deck.jpg","images/thumb-sunset.jpg","images/thumb-lawn.jpg","images/thumb-coffee.jpg"];
+  var PROJECT_INFO_LABELS = {"location":"מיקום הפרוייקט","area":"שטח הגינה","duration":"משך הפרוייקט"};
+  // location / size / duration of a project as three icon + label/value items (shared by desktop and mobile)
+  function lhProjectInfo(p) {
+    var L = PROJECT_INFO_LABELS, I = p.info || {};
+    function e(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    function item(icon, label, value) {
+      if (!value) return '';
+      return '<div class="proj-info__item"><img src="images/' + icon + '.svg" alt="" width="34" height="34">'
+        + '<div class="proj-info__txt"><span class="font-liebling-bold">' + e(label) + '</span><span class="font-liebling">' + e(value) + '</span></div></div>';
+    }
+    return item('info-location', L.location, I.location) + item('info-size', L.area, I.area) + item('info-time', L.duration, I.duration);
+  }
 
   (function () {
     var host = document.getElementById('projects');
@@ -651,6 +677,7 @@
       html += '<div class="proj-box" data-i="' + i + '" style="left:' + p.box.x + 'px;">'
         + '<h3 class="proj-box__title font-liebling-light" style="right:' + p.box.padR + 'px;">' + p.title + '</h3>'
         + '<div class="proj-box__desc font-liebling" style="right:' + (p.box.padR + 3) + 'px;">' + p.text.map(function (t) { return '<p>' + t + '</p>'; }).join('') + '</div>'
+        + '<div class="proj-box__info" style="right:' + p.box.padR + 'px;">' + lhProjectInfo(p) + '</div>'
         + '<p class="proj-box__more font-liebling-light" style="right:' + p.box.padR + 'px;">' + PROJECT_MORE + '</p>'
         + '<div class="proj-box__thumbs" style="right:' + p.box.padR + 'px;">'
         + (p.thumbs || PROJECT_THUMBS).map(function (t) {
@@ -1062,6 +1089,7 @@
               + '<div class="lh-m-pdesc font-liebling"><p>' + p.text[0] + '</p>'
               + (p.text[1] ? '<p class="lh-m-pmore" hidden>' + p.text[1] + '</p><button type="button" class="lh-m-readmore font-liebling" aria-expanded="false">קראו עוד</button>' : '')
               + '</div>'
+              + '<div class="lh-m-pinfo">' + lhProjectInfo(p) + '</div>'
               + '<p class="lh-m-plabel font-liebling-light">' + PROJECT_MORE + '</p>'
               + '<div class="lh-m-pthumbs">' + (p.thumbs || PROJECT_THUMBS).map(function (t) {
                   return '<button type="button" class="lh-m-thumb" data-src="' + t + '" aria-label="תמונה נוספת מהפרויקט"><img src="' + t + '" alt="" loading="lazy" decoding="async"></button>';

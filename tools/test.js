@@ -29,6 +29,17 @@ assert(h2.includes('var CARD_RGB = [[17,34,51],'));
 assert(h2.includes('"text":["פסקה אחת"]'));
 console.log('ok  edits reach desktop + mobile, text is escaped');
 
+// 2b. project info strip (location / size / duration) comes from content.json
+const c3 = JSON.parse(JSON.stringify(content));
+c3.projects[1].location = 'מקום <בדיקה>';
+c3.projects[1].duration = '';
+c3.projectsSection.labelArea = 'שטח בדיקה';
+const h3 = render(template, validate(c3));
+assert(h3.includes('"location":"מקום \\u003cבדיקה>"') || h3.includes('"location":"מקום <בדיקה>"'.replace('<', '\\u003c')));
+assert(h3.includes('"labels"') === false);
+assert(h3.includes('שטח בדיקה'));
+console.log('ok  project info strip data reaches the page');
+
 // 3. validation rejects bad input
 assert.throws(() => validate(Object.assign({}, content, { projects: content.projects.slice(0, 2) })));
 const bad = JSON.parse(JSON.stringify(content)); bad.projects[0].photo = '../secret.png';

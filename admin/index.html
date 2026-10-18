@@ -239,6 +239,7 @@
         el('h3', { text: 'פרוייקט ' + (i + 1) }),
         textField('כותרת', p, 'title'),
         paragraphsField('טקסט', p, 'paragraphs', 3),
+        el('div', { class: 'row' }, [textField('מיקום הפרוייקט', p, 'location'), textField('שטח הגינה', p, 'area'), textField('משך הפרוייקט', p, 'duration')]),
         imageField('תמונה ראשית', { kind: 'photo',
           get: function () { return p.photo; },
           set: function (v) { p.photo = v; delete p.photoMobile; delete p.crop; },
@@ -248,7 +249,8 @@
       ]);
     });
     app.appendChild(card('פרוייקטים', false, [
-      textField('כיתוב מעל התמונות הנוספות', c.projectsSection, 'more')
+      textField('כיתוב מעל התמונות הנוספות', c.projectsSection, 'more'),
+      el('div', { class: 'row' }, [textField('כותרת השדה: מיקום', c.projectsSection, 'labelLocation'), textField('כותרת השדה: שטח', c.projectsSection, 'labelArea'), textField('כותרת השדה: משך', c.projectsSection, 'labelDuration')])
     ].concat(projects)));
 
     app.appendChild(card('כרטיסיות השירותים (מה אנחנו עושים)', false, c.services.map(function (s, i) {

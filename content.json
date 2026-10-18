@@ -18,7 +18,10 @@
   "projectsSection": {
     "label": "Projects",
     "title": "פרוייקטים",
-    "more": "תמונות נוספות מהפרוייקט"
+    "more": "תמונות נוספות מהפרוייקט",
+    "labelLocation": "מיקום הפרוייקט",
+    "labelArea": "שטח הגינה",
+    "labelDuration": "משך הפרוייקט"
   },
   "vision": {
     "label": "OUR VISON",
@@ -99,7 +102,10 @@
         "t": -0.54,
         "w": 173.08,
         "h": 101.72
-      }
+      },
+      "location": "להבים- שכונת שרונית",
+      "area": "250 מטר",
+      "duration": "שלושה שבועות"
     },
     {
       "title": "הקמת גינה בשכונת שרונית בלהבים",
@@ -114,7 +120,10 @@
         "images/thumb-sunset.jpg",
         "images/thumb-lawn.jpg",
         "images/thumb-coffee.jpg"
-      ]
+      ],
+      "location": "להבים- שכונת שרונית",
+      "area": "250 מטר",
+      "duration": "שלושה שבועות"
     },
     {
       "title": "הקמת גינה בשכונת שרונית בלהבים",
@@ -129,7 +138,10 @@
         "images/thumb-sunset.jpg",
         "images/thumb-lawn.jpg",
         "images/thumb-coffee.jpg"
-      ]
+      ],
+      "location": "להבים- שכונת שרונית",
+      "area": "250 מטר",
+      "duration": "שלושה שבועות"
     }
   ]
 }
