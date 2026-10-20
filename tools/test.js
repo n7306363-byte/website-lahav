@@ -40,7 +40,25 @@ assert(h3.includes('"labels"') === false);
 assert(h3.includes('שטח בדיקה'));
 console.log('ok  project info strip data reaches the page');
 
+// 2c. hero gallery photos come from content.json (loader + desktop mosaic + mobile rows)
+const c4 = JSON.parse(JSON.stringify(content));
+c4.hero.photos[5] = 'images/uploads/hero-test.jpg';   // photo #6 is used in all three places
+const h4 = render(template, validate(c4));
+assert(!h4.includes('images/hero-photo-06.jpg'), 'old photo #6 is gone everywhere');
+assert(h4.includes('<div class="lh-loader__item"><img src="images/uploads/hero-test.jpg"'), 'intro loader');
+assert(h4.includes('var PHOTOS = ["images/hero-photo-01.jpg",') && h4.includes('"images/uploads/hero-test.jpg"'), 'desktop mosaic pool');
+assert(h4.split('<img src="images/uploads/hero-test.jpg" alt="" decoding="async">').length - 1 === 2, 'mobile row (shown twice for the loop)');
+assert(h4.includes('images/hero-photo-05.jpg') && h4.includes('images/hero-photo-07.jpg'), 'other photos untouched');
+// content without hero.photos (old admin page) falls back to the 16 default photos
+const c5 = JSON.parse(JSON.stringify(content)); delete c5.hero.photos;
+assert.deepStrictEqual(validate(c5).hero.photos, require('../lib/render').DEFAULT_HERO_PHOTOS);
+console.log('ok  hero gallery photos are editable (loader, desktop, mobile)');
+
 // 3. validation rejects bad input
+const bad3 = JSON.parse(JSON.stringify(content)); bad3.hero.photos = bad3.hero.photos.slice(0, 15);
+assert.throws(() => validate(bad3));
+const bad4 = JSON.parse(JSON.stringify(content)); bad4.hero.photos[0] = '../../etc/passwd.jpg';
+assert.throws(() => validate(bad4));
 assert.throws(() => validate(Object.assign({}, content, { projects: content.projects.slice(0, 2) })));
 const bad = JSON.parse(JSON.stringify(content)); bad.projects[0].photo = '../secret.png';
 assert.throws(() => validate(bad));

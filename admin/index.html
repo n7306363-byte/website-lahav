@@ -41,6 +41,9 @@
   .img .pv img{ width:100%; height:100%; object-fit:cover; display:block; }
   .img.round .pv{ width:96px; height:96px; border-radius:50%; }
   .img.small .pv{ width:88px; height:88px; }
+  .img.tile .pv{ width:84px; height:112px; }
+  .img.tile .ctl{ min-width:0; }
+  .hero-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px 12px; }
   .img .ctl{ display:grid; gap:6px; font-size:14px; color:var(--muted); min-width:180px; }
   .img .ctl input[type=range]{ width:100%; }
   .thumbs{ display:flex; gap:12px; flex-wrap:wrap; }
@@ -105,7 +108,7 @@
   var busy = false;
 
   // ---------------------------------------------------------------- images
-  var SIZES = { photo: 1600, card: 1000, bg: 2200, avatar: 420, thumb: 700 };
+  var SIZES = { photo: 1600, card: 1000, bg: 2200, avatar: 420, thumb: 700, hero: 1000 };
   function resizeToJpeg(file, maxSide) {
     return new Promise(function (resolve, reject) {
       var url = URL.createObjectURL(file);
@@ -136,7 +139,7 @@
 
   // image field: opts { kind, round, small, get(), set(path), pos?:{get,set} }
   function imageField(label, opts) {
-    var wrap = el('div', { class: 'img' + (opts.round ? ' round' : '') + (opts.small ? ' small' : '') });
+    var wrap = el('div', { class: 'img' + (opts.round ? ' round' : '') + (opts.small ? ' small' : '') + (opts.tile ? ' tile' : '') });
     var pv = el('div', { class: 'pv' });
     var im = el('img', { alt: '' });
     pv.appendChild(im);
@@ -212,6 +215,20 @@
     return d;
   }
 
+  // the 16-photo pool behind the moving gallery (intro screen, desktop mosaic, mobile rows)
+  function heroPhotos(hero) {
+    var grid = el('div', { class: 'hero-grid' });
+    hero.photos.forEach(function (_, i) {
+      grid.appendChild(imageField('תמונה ' + (i + 1), { kind: 'hero', tile: true,
+        get: function () { return hero.photos[i]; }, set: function (v) { hero.photos[i] = v; } }));
+    });
+    return el('div', { class: 'sub' }, [
+      el('h3', { text: 'תמונות הגלריה בראש האתר' }),
+      el('p', { class: 'hint', text: 'הגלריה הנעה בראש האתר (במסך הפתיחה, בדסקטופ ובמובייל) משתמשת ב-16 התמונות האלה. כל תמונה מופיעה בכמה מקומות, ולכן החלפה של תמונה אחת משנה אותה בכולם. עדיף תמונות לאורך (יחס 3:4): תמונה לרוחב תיחתך במרכז, והתצוגה המקדימה כאן מראה את החיתוך.' }),
+      grid,
+    ]);
+  }
+
   // ---------------------------------------------------------------- build the form
   function build() {
     var app = $('#app'); app.textContent = '';
@@ -221,6 +238,7 @@
       textField('כותרת קטנה', c.hero, 'sub'),
       el('div', { class: 'row' }, [textField('כותרת — שורה ראשונה', c.hero, 'title1'), textField('כותרת — שורה שנייה (גדולה)', c.hero, 'title2')]),
       textField('פסקה', c.hero, 'text', { multi: true }),
+      heroPhotos(c.hero),
     ]));
 
     app.appendChild(card('הסיפור שלנו', false, [

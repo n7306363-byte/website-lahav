@@ -857,6 +857,7 @@
     var VW = 19.2;                    // 1vw of the 1920px canvas
     var IW = 25 * VW;                 // card width (col-3 of 12)
     var IH = 622.2222;                // card height: 3:4 photo + padding
+    var PHOTOS = ["images/hero-photo-01.jpg","images/hero-photo-02.jpg","images/hero-photo-03.jpg","images/hero-photo-04.jpg","images/hero-photo-05.jpg","images/hero-photo-06.jpg","images/hero-photo-07.jpg","images/hero-photo-08.jpg","images/hero-photo-09.jpg","images/hero-photo-10.jpg","images/hero-photo-11.jpg","images/hero-photo-12.jpg","images/hero-photo-13.jpg","images/hero-photo-14.jpg","images/hero-photo-15.jpg","images/hero-photo-16.jpg"];   // the 16-photo pool, editable in the admin
     var order = [2, 6, 4, 8, 10, 12,  5, 14, 7, 16, 3, 9, 11,  13, 15, 1, 6, 14, 8];
     var rows = [
       { y: 0,      base: -40 * VW, start:  5.3875 * VW, period: 150 * VW, dir:  1, n: 6 },
@@ -870,7 +871,7 @@
         var el = document.createElement('div');
         el.className = 'lh-gallery__item';
         var im = new Image();
-        im.src = 'images/hero-photo-' + (n < 10 ? '0' + n : n) + '.jpg';
+        im.src = PHOTOS[n - 1];
         im.alt = '';
         im.decoding = 'async';
         if (window.matchMedia && window.matchMedia('(max-width:1023px)').matches) im.loading = 'lazy';   // phones never show this gallery
