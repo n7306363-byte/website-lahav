@@ -54,6 +54,13 @@ const c5 = JSON.parse(JSON.stringify(content)); delete c5.hero.photos;
 assert.deepStrictEqual(validate(c5).hero.photos, require('../lib/render').DEFAULT_HERO_PHOTOS);
 console.log('ok  hero gallery photos are editable (loader, desktop, mobile)');
 
+// 2d. floating contact bar (desktop + mobile): a call link and a WhatsApp link, both to the phone number
+assert(html.includes('class="lh-fc__item lh-fc__item--call" href="tel:0523928242"'), 'desktop call link');
+assert(html.includes('class="lh-fc__item lh-fc__item--wa" href="https://wa.me/972523928242"'), 'desktop WhatsApp link');
+assert(html.includes('class="lh-m-wa__call" href="tel:0523928242"') && html.includes('class="lh-m-wa__wa" href="https://wa.me/972523928242"'), 'mobile call + WhatsApp links');
+assert(!html.includes('דברו איתנו בווצאפ'), 'the old single WhatsApp pill is gone');
+console.log('ok  floating contact bar (call + WhatsApp)');
+
 // 3. validation rejects bad input
 const bad3 = JSON.parse(JSON.stringify(content)); bad3.hero.photos = bad3.hero.photos.slice(0, 15);
 assert.throws(() => validate(bad3));
